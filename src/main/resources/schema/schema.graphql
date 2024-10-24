@@ -1,0 +1,51 @@
+
+
+type User {
+    id: ID!
+    username: String!
+    email: String!
+    password: String!
+    phone: String!
+    sentParcels: [Parcel!]!
+    receivedParcels: [Parcel!]!
+}
+
+type Parcel {
+    id: ID!
+    weight: Float!
+    size: String!
+    type: String!
+    sender: User!
+    recipient: User!
+    location: Location!
+}
+
+type Location {
+    id: ID!
+    address: String!
+    name: String!
+    parcels: [Parcel!]!
+}
+
+type Query {
+    allUsers: [User!]!
+    userById(id: ID!): User
+    allParcels: [Parcel!]!
+    parcelById(id: ID!): Parcel
+    allLocations: [Location!]!
+    locationById(id: ID!): Location
+}
+
+type Mutation {
+    addUser(username: String!, email: String!, password: String!, phone: String!): User!
+    updateUser(id: ID!, username: String, email: String, password: String, phone: String): User!
+    deleteUser(id: ID!): Boolean!
+
+    addParcel(weight: Float!, size: String!, type: String!, senderId: ID!, recipientId: ID!, locationId: ID!): Parcel!
+    updateParcel(id: ID!, weight: Float, size: String, type: String): Parcel!
+    deleteParcel(id: ID!): Boolean!
+
+    addLocation(address: String!, name: String!): Location!
+    updateLocation(id: ID!, address: String, name: String): Location!
+    deleteLocation(id: ID!): Boolean!
+}
