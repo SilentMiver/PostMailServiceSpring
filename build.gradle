@@ -37,6 +37,7 @@ dependencies {
 	implementation("org.postgresql:postgresql:42.7.3")
 	implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:9.1.2")
 	implementation("org.apache.logging.log4j:log4j-core:2.20.0")
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")

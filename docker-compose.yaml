@@ -12,6 +12,16 @@ services:
     ports:
       - "5432:5432"
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"     # Порт для обмена сообщениями
+      - "15672:15672"   # Порт для панели управления
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
