@@ -1,7 +1,7 @@
 package com.example.demo.services.impl;
 
 
-import com.example.demo.dto.ParcelDTO;
+import com.example.postmailcf.dto.ParcelDTO;
 import com.example.demo.entity.ParcelEntity;
 import com.example.demo.exceptions.ParcelNotFoundException;
 import com.example.demo.repository.ParcelRepository;

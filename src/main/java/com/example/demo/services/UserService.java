@@ -1,9 +1,7 @@
 package com.example.demo.services;
 
-import com.example.demo.dto.UserDTO;
-
 import java.util.List;
-
+import com.example.postmailcf.dto.UserDTO;
 public interface UserService {
     void addUser(UserDTO userDTO);
     void updateUser(UserDTO userDTO);

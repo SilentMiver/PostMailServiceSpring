@@ -1,6 +1,6 @@
 package com.example.demo.datafetchers;
 
-import com.example.demo.dto.ParcelDTO;
+import com.example.postmailcf.dto.ParcelDTO;
 import com.example.demo.services.ParcelService;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;

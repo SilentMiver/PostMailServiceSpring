@@ -1,7 +1,7 @@
 package com.example.demo.datafetchers;
 
-import com.example.demo.dto.UserDTO;
 import com.example.demo.services.UserService;
+import com.example.postmailcf.dto.UserDTO;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.DgsMutation;

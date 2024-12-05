@@ -1,7 +1,7 @@
 package com.example.demo.services.impl;
 
-import com.example.demo.dto.LocationDTO;
 import com.example.demo.entity.LocationEntity;
+import com.example.postmailcf.dto.LocationDTO;
 import com.example.demo.exceptions.LocationNotFoundException;
 import com.example.demo.repository.LocationRepository;
 import com.example.demo.services.LocationService;

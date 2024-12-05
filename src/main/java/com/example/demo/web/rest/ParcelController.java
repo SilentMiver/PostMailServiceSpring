@@ -1,6 +1,7 @@
 package com.example.demo.web.rest;
 
-import com.example.demo.dto.ParcelDTO;
+import com.example.postmailcf.controllers.ParcelApi;
+import com.example.postmailcf.dto.ParcelDTO;
 import com.example.demo.services.ParcelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -16,7 +17,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
 @RequestMapping("/api/parcels")
-public class ParcelController {
+public class ParcelController implements ParcelApi {
 
     private final ParcelService parcelService;
 
@@ -68,5 +69,15 @@ public class ParcelController {
     public ResponseEntity<?> deleteParcel(@PathVariable Long id) {
         parcelService.deleteParcelById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public CollectionModel<EntityModel<ParcelDTO>> getParcelsBySender(Long senderId) {
+        return null;
+    }
+
+    @Override
+    public CollectionModel<EntityModel<ParcelDTO>> getParcelsByMinWeight(Double minWeight) {
+        return null;
     }
 }

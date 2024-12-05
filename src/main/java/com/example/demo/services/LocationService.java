@@ -1,6 +1,6 @@
 package com.example.demo.services;
 
-import com.example.demo.dto.LocationDTO;
+import com.example.postmailcf.dto.LocationDTO;
 
 import java.util.List;
 

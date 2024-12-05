@@ -1,8 +1,9 @@
 package com.example.demo.web.rest;
 
 
-import com.example.demo.dto.LocationDTO;
+import com.example.postmailcf.dto.LocationDTO;
 import com.example.demo.services.LocationService;
+import com.example.postmailcf.controllers.LocationApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -18,7 +19,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
 @RequestMapping("/api/locations")
-public class LocationController {
+public class LocationController implements LocationApi {
 
     private final LocationService locationService;
 
@@ -27,7 +28,7 @@ public class LocationController {
         this.locationService = locationService;
     }
 
-    @GetMapping
+    @Override
     public CollectionModel<EntityModel<LocationDTO>> getAllLocations() {
         List<EntityModel<LocationDTO>> locations = locationService.findAllLocations().stream()
                 .map(location -> EntityModel.of(location,
@@ -70,6 +71,11 @@ public class LocationController {
     public ResponseEntity<?> deleteLocation(@PathVariable Long id) {
         locationService.deleteLocationById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public EntityModel<LocationDTO> getLocationsByAddress(String address) {
+        return null;
     }
 }
 

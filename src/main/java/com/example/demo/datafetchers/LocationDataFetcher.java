@@ -1,6 +1,6 @@
 package com.example.demo.datafetchers;
 
-import com.example.demo.dto.LocationDTO;
+import com.example.postmailcf.dto.LocationDTO;
 import com.example.demo.services.LocationService;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;

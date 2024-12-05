@@ -1,7 +1,8 @@
 package com.example.demo.web.rest;
 
-import com.example.demo.dto.UserDTO;
 import com.example.demo.services.UserService;
+import com.example.postmailcf.controllers.UserApi;
+import com.example.postmailcf.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -16,7 +17,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
 @RequestMapping("/api/users")
-public class UserController {
+public class UserController implements UserApi {
 
     private final UserService userService;
 
@@ -68,5 +69,15 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public CollectionModel<EntityModel<UserDTO>> getUsersByEmail(String email) {
+        return null;
+    }
+
+    @Override
+    public CollectionModel<EntityModel<UserDTO>> getUsersByPhone(String phone) {
+        return null;
     }
 }

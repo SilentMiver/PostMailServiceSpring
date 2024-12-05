@@ -1,6 +1,6 @@
 package com.example.demo.services;
 
-import com.example.demo.dto.ParcelDTO;
+import com.example.postmailcf.dto.ParcelDTO;
 
 import java.util.List;
 
