@@ -1,15 +1,19 @@
 package com.example.demo.datafetchers;
 
+import com.example.demo.services.NotificationService;
 import com.example.postmailcf.dto.ParcelDTO;
 import com.example.demo.services.ParcelService;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.DgsMutation;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 @DgsComponent
 public class ParcelDataFetcher {
+    @Autowired
+    private NotificationService notificationService;
 
     private final ParcelService parcelService;
 
@@ -37,6 +41,8 @@ public class ParcelDataFetcher {
         parcelDTO.setRecipientId(recipientId);
         parcelDTO.setLocationId(locationId);
         parcelService.addParcel(parcelDTO);
+
+
         return parcelDTO;
     }
 
@@ -47,6 +53,7 @@ public class ParcelDataFetcher {
         if (size != null) parcelDTO.setSize(size);
         if (type != null) parcelDTO.setType(type);
         parcelService.updateParcel(parcelDTO);
+
         return parcelDTO;
     }
 

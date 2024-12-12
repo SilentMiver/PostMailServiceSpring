@@ -1,6 +1,7 @@
 package com.example.demo.services.impl;
 
 
+import com.example.demo.services.NotificationService;
 import com.example.postmailcf.dto.ParcelDTO;
 import com.example.demo.entity.ParcelEntity;
 import com.example.demo.exceptions.ParcelNotFoundException;
@@ -8,6 +9,7 @@ import com.example.demo.repository.ParcelRepository;
 import com.example.demo.services.ParcelService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,14 +17,18 @@ import java.util.Optional;
 
 @Service
 public class ParcelServiceImpl implements ParcelService {
-    private final ParcelRepository parcelRepository;
-    private final ModelMapper modelMapper;
-
     @Autowired
-    public ParcelServiceImpl(ParcelRepository parcelRepository, ModelMapper modelMapper) {
-        this.parcelRepository = parcelRepository;
-        this.modelMapper = modelMapper;
-    }
+    private NotificationService notificationService;
+    @Autowired
+    private ParcelRepository parcelRepository;
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Value("${rabbitmq.parcel-changed.exchange}")
+    private String PARCEL_CHANGED_EXCHANGE;
+
+    @Value("${rabbitmq.parcel-changed.key}")
+    private String PARCEL_CHANGED_KEY;
 
     @Override
     public void addParcel(ParcelDTO parcelDTO) {
@@ -36,6 +42,8 @@ public class ParcelServiceImpl implements ParcelService {
         if (optionalParcel.isPresent()) {
             ParcelEntity parcelEntity = modelMapper.map(parcelDTO, ParcelEntity.class);
             parcelRepository.save(parcelEntity);
+            notificationService.sendNotification(parcelDTO);
+            System.out.println("!!! Обновлен parcel " + parcelDTO);
         }
     }
 

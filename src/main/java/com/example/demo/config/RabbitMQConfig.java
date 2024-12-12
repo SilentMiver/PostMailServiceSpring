@@ -1,10 +1,6 @@
 package com.example.demo.config;
 
 import org.springframework.amqp.core.*;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,42 +8,59 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    @Value("${rabbitmq.queue.name}")
-    private String queue;
+    @Value("${rabbitmq.notification.queue}")
+    private String NOTIFICATION_QUEUE;
 
-    @Value("${rabbitmq.exchange.name}")
-    private String exchange;
+    @Value("${rabbitmq.notification.exchange}")
+    private String NOTIFICATION_EXCHANGE;
 
-    @Value("${rabbitmq.routing.key}")
-    private String routingKey;
+    @Value("${rabbitmq.notification.key}")
+    private String NOTIFICATION_KEY;
+
+    @Value("${rabbitmq.parcel-changed.queue}")
+    private String PARCEL_CHANGED_QUEUE;
+
+    @Value("${rabbitmq.parcel-changed.exchange}")
+    private String PARCEL_CHANGED_EXCHANGE;
+
+    @Value("${rabbitmq.parcel-changed.key}")
+    private String PARCEL_CHANGED_KEY;
 
     @Bean
-    public Queue queue() {
-        return new Queue(queue);
+    public Queue parcelChangedQueue() {
+        return new Queue(PARCEL_CHANGED_QUEUE, false);
+    }
+
+
+    @Bean
+    public TopicExchange parcelChangedExchange() {
+        return new TopicExchange(PARCEL_CHANGED_QUEUE, false, false);
+    }
+
+
+    @Bean
+    public Binding parcelChangedBinding(Queue parcelChangedQueue, TopicExchange parcelChangedExchange) {
+        return BindingBuilder.bind(parcelChangedQueue)
+                .to(parcelChangedExchange)
+                .with(PARCEL_CHANGED_KEY);
+    }
+
+
+    @Bean
+    public Queue notificationQueue() {
+        return new Queue(NOTIFICATION_QUEUE, false);
     }
 
     @Bean
-    public TopicExchange exchange() {
-        return new TopicExchange(exchange);
+    public TopicExchange notificationExchange() {
+        return new TopicExchange(NOTIFICATION_EXCHANGE, false, false);
     }
 
     @Bean
-    public Binding binding() {
+    public Binding notificationBinding(Queue notificationQueue, TopicExchange notificationExchange) {
         return BindingBuilder
-                .bind(queue())
-                .to(exchange())
-                .with(routingKey);
-    }
-
-    @Bean
-    public MessageConverter converter() {
-        return new Jackson2JsonMessageConverter();
-    }
-
-    @Bean
-    public AmqpTemplate amqpTemplate(ConnectionFactory connectionFactory) {
-        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-        rabbitTemplate.setMessageConverter(converter());
-        return rabbitTemplate;
+                .bind(notificationQueue)
+                .to(notificationExchange)
+                .with(NOTIFICATION_KEY);
     }
 }
