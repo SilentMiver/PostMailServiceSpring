@@ -26,6 +26,34 @@ public class RabbitMQConfig {
     @Value("${rabbitmq.parcel-changed.key}")
     private String PARCEL_CHANGED_KEY;
 
+    // Новые параметры из application.properties
+    @Value("${rabbitmq.lost-parcels.queue}")
+    private String LOST_PARCELS_QUEUE;
+
+    @Value("${rabbitmq.lost-parcels.exchange}")
+    private String LOST_PARCELS_EXCHANGE;
+
+    @Value("${rabbitmq.lost-parcels.key}")
+    private String LOST_PARCELS_KEY;
+
+    @Bean
+    public Queue lostParcelsQueue() {
+        return new Queue(LOST_PARCELS_QUEUE, false); // Очередь не сохраняется после перезагрузки сервера
+    }
+
+    @Bean
+    public TopicExchange lostParcelsExchange() {
+        return new TopicExchange(LOST_PARCELS_EXCHANGE, false, false);
+    }
+
+    @Bean
+    public Binding lostParcelsBinding(Queue lostParcelsQueue, TopicExchange lostParcelsExchange) {
+        return BindingBuilder
+                .bind(lostParcelsQueue)
+                .to(lostParcelsExchange)
+                .with(LOST_PARCELS_KEY); // Связываем ключ маршрутизации с очередью
+    }
+
     @Bean
     public Queue parcelChangedQueue() {
         return new Queue(PARCEL_CHANGED_QUEUE, false);

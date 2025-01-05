@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,14 @@ import java.util.Optional;
 public class ParcelServiceImpl implements ParcelService {
     @Autowired
     private NotificationService notificationService;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    @Value("${rabbitmq.lost-parcels.exchange}")
+    private String LOST_PARCELS_EXCHANGE;
+
+    @Value("${rabbitmq.lost-parcels.key}")
+    private String LOST_PARCELS_KEY;
     @Autowired
     private ParcelRepository parcelRepository;
     @Autowired
@@ -42,6 +51,15 @@ public class ParcelServiceImpl implements ParcelService {
         if (optionalParcel.isPresent()) {
             ParcelEntity parcelEntity = modelMapper.map(parcelDTO, ParcelEntity.class);
             parcelRepository.save(parcelEntity);
+            // Проверяем, потеряна ли посылка
+            if ("LOST".equals(parcelEntity.getType())) {
+                // Формируем сообщение о потерянной посылке
+                String message = String.format("Parcel ID: %d marked as LOST", parcelDTO.getId());
+                System.out.println("Отправка сообщения о потерянной посылке: " + message);
+
+                // Отправляем сообщение в RabbitMQ
+                rabbitTemplate.convertAndSend(LOST_PARCELS_EXCHANGE, LOST_PARCELS_KEY, message);
+            }
             notificationService.sendNotification(parcelDTO);
             System.out.println("!!! Обновлен parcel " + parcelDTO);
         }
