@@ -28,8 +28,8 @@ pipeline {
         }
 
         stage('Build') {
-        echo docker -v
             agent {
+             label 'agent'
                 docker {
                     image 'gradle:8.10.2-jdk17'
                     args "-u root -v ${GRADLE_CACHE}:/home/gradle/.gradle -v ${WORKSPACE_DIR}:${PROJECT_DIR} --workdir=${PROJECT_DIR}"
