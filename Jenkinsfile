@@ -49,7 +49,7 @@ pipeline {
 
             steps {
                 script {
-                    sh 'sudo ./gradlew clean build -x test'
+
                     sh 'docker-compose up -d'
                 }
             }
