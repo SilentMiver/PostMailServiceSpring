@@ -38,7 +38,7 @@ dependencies {
 	implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:9.1.2")
 	implementation("org.apache.logging.log4j:log4j-core:2.20.0")
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
-	implementation(files("C:\\Users\\Vova\\Documents\\repo\\postmailcf\\build\\libs\\postmailcf-0.0.1-SNAPSHOT-contracts.jar"))
+	implementation(files("libs/postmailcf-0.0.1-SNAPSHOT-contracts.jar"))
 
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
