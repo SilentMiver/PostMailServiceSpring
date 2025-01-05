@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         WORKSPACE_DIR = "${env.WORKSPACE}"
-        PROJECT_DIR = "/PostMailServiceSpring"
+        PROJECT_DIR = "/demo"
         GRADLE_CACHE = "/tmp/.gradle"
     }
 
