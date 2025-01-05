@@ -28,6 +28,7 @@ pipeline {
         }
 
         stage('Build') {
+        echo docker -v
             agent {
                 docker {
                     image 'gradle:8.10.2-jdk17'
